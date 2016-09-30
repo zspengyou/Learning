@@ -1,4 +1,4 @@
-package learning;
+package learning.unionfind;
 
 interface UnionFind {
 	public boolean find(int p, int q);

@@ -1,4 +1,4 @@
-package learning;
+package learning.unionfind;
 
 public class QuickUnion extends UnionFindA{
 	public QuickUnion(int size){

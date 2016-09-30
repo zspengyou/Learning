@@ -1,4 +1,4 @@
-package learning;
+package learning.unionfind;
 
 public abstract class UnionFindA {
 	protected int id[];

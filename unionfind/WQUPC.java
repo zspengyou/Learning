@@ -1,4 +1,4 @@
-package learning;
+package learning.unionfind;
 
 public class WQUPC {
 	public int id[];

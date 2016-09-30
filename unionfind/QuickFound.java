@@ -1,4 +1,4 @@
-package learning;
+package learning.unionfind;
 
 public class QuickFound extends UnionFindA{
 //	int[]id;
