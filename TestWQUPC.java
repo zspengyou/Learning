@@ -18,6 +18,7 @@ public class TestWQUPC {
 		test.printResult();
 	}
 	public static void main(String[] args) {
+		System.out.println("test weighted union find with path compression" );
 		testUnionFind(new WQUPC(7));
 
 	}
