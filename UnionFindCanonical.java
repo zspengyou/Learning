@@ -1,4 +1,4 @@
-package learning.unionfind;
+
 
 public class UnionFindCanonical {
 	private int [] id;
