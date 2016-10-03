@@ -1,38 +1,27 @@
+package unionfind;
 
 
-import java.util.Arrays;
+public class TestWQUPC {
+	
+	WQUPC unionFind;
 
-public class TestTemplate {
-	UnionFindA unionFind;
-
-	public TestTemplate(UnionFindA unionFind) {
+	public TestWQUPC(WQUPC unionFind) {
 		this.unionFind = unionFind;
 	}
 	
-	void testUnionFind(UnionFindA toBeTest){
-		TestTemplate test = new TestTemplate(toBeTest);
+	public static void  testUnionFind(WQUPC toBeTest){
+		TestWQUPC test = new TestWQUPC(toBeTest);
 		System.out.println("-------------- New Test ---------------" );
 		test.init();
 		test.testFind();
-		toBeTest.printResult();
-		if (toBeTest instanceof WeightedQuickUnion) {
-			int [] size = ((WeightedQuickUnion)toBeTest).size;
-			System.out.println(Arrays.toString(size));
-		}
-//		printResult(toBeTest);
+		test.printResult();
 		test.testUnion();
-		toBeTest.printResult();
-		if (toBeTest instanceof WeightedQuickUnion) {
-			int [] size = ((WeightedQuickUnion)toBeTest).size;
-			System.out.println(Arrays.toString(size));
-		}
-//		printResult(toBeTest);
+		test.printResult();
 	}
 	public static void main(String[] args) {
-		TestTemplate tt = new TestTemplate(null);
-//		tt.testUnionFind(new QuickFound(7));
-		tt.testUnionFind(new QuickUnion(7));
-		tt.testUnionFind(new WeightedQuickUnion(7));
+		System.out.println("test weighted union find with path compression" );
+		testUnionFind(new WQUPC(7));
+
 	}
 
 	void init() {
@@ -41,7 +30,6 @@ public class TestTemplate {
 		unionFind.union(3, 5);
 		unionFind.union(3, 4);
 	}
-
 	void testFind() {
 		boolean result = false;
 		result = unionFind.find(0, 1);
@@ -66,7 +54,7 @@ public class TestTemplate {
 	}
 	
 	
-	public void printResult(UnionFindA unionFind){
+	public void printResult(){
 		for (int i = 0;i<unionFind.id.length;i++){
 			System.out.println(i + "-> " +unionFind.id[i]);
 		}
