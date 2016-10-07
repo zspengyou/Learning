@@ -2,6 +2,8 @@ package unionfind;
 
 import java.util.Arrays;
 
+import utils.FillGridWithString;
+
 public class NumIslands {
 
 	public static void main(String[] args) {

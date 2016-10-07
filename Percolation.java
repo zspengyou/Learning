@@ -3,11 +3,11 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-	int size;
-	boolean[] sites;
-	WeightedQuickUnionUF unionFind;
-	int top;
-	boolean isPerculated;
+	private int numCol;
+	private boolean[] isOpen;
+	private WeightedQuickUnionUF unionFind;
+	private int virtualTop;
+	private boolean isPerculated;
 
 	/**
 	 * @param n
@@ -15,78 +15,71 @@ public class Percolation {
 	public Percolation(int n) {
 		if (n <= 0)
 			throw new IllegalArgumentException();
-		size = n;
-		sites = new boolean[n * n];
-		unionFind = new WeightedQuickUnionUF(n * n + 2);
-		top = n * n;// TODO
-		//		for (int i=0; i< n; i++){
-		//			unionFind.union(i, top);
-		//			unionFind.union(n * (n-1) + i, bottom);
-		//		}
-		//		System.out.println("union find count should equal to : " + (n * (n-2)+ 2));//TODO
-		//		System.out.println("union find count equal to : " + unionFind.count());		
+		numCol = n;
+		isOpen = new boolean[n * n];
+		unionFind = new WeightedQuickUnionUF(n * n + 1);
+		virtualTop = n * n;
 	}
 
 	/**
 	 * open site (row i, column j) if it is not open already
-	 * 
 	 * @param i
 	 * @param j
 	 */
-	public void open(int i, int j) {//TODO
+	public void open(int i, int j) {
 		int id = xyToId(i, j);
-		sites[id] = true;
-		
-		int above = id - size;
-		if (above < 0) {
-			unionFind.union(id, top);
-		} else if (sites[above]) {
-			unionFind.union(id, above);
-		}
-		
-		int below = id + size;
-		if (below >= size * size) {
-//			unionFind.union(id, bottom);
-		} else if (sites[below]) {
-			unionFind.union(id, below);
-		}
-		
+		isOpen[id] = true;	
 		int left = id - 1;
-		if (left >= 0 && id % size != 0 && sites[left])
+		if (left >= 0 && id % numCol != 0 && isOpen[left])
 			unionFind.union(id, left);
 
 		int right = id + 1;
-		if (right < size * size && right % size != 0 && sites[right])
+		if (right < numCol * numCol && right % numCol != 0 && isOpen[right])
 			unionFind.union(id, right);
+		
+		int above = id - numCol;
+		if (above < 0) {
+			unionFind.union(id, virtualTop);
+		} else if (isOpen[above]) {
+			unionFind.union(id, above);
+		}
+		
+		int below = id + numCol;
+		if (below >= numCol * numCol) {
+
+		} else if (isOpen[below]) {
+			unionFind.union(id, below);
+		}
+		
+
+		if(unionFind.connected(id, virtualTop))
+			isPerculated = true;
 	}
 
 	/**
-	 * is site (row i, column j) open?
-	 * 
+	 * is site (row i, column j) open? 
 	 * @param i
 	 * @param j
 	 * @return
 	 */
 	public boolean isOpen(int i, int j) {
 		int id = xyToId(i, j);
-		return sites[id];
+		return isOpen[id];
 	}
 
 	/**
 	 * is site (row i, column j) full?
-	 * 
 	 * @param i
 	 * @param j
 	 * @return
 	 */
 	public boolean isFull(int i, int j) {
 		int id = xyToId(i, j);
-		return unionFind.connected(id, top);
+		return unionFind.connected(id, virtualTop);
 	}
 
 	/**
 	 * does the system percolate?
-	 * 
 	 * @return
 	 */
 	public boolean percolates() {
@@ -94,15 +87,13 @@ public class Percolation {
 	}
 
 	private int xyToId(int x, int y) {
-		if (x <= 0 || x > size)
+		if (x <= 0 || x > numCol || y <= 0 || y > numCol)
 			throw new IndexOutOfBoundsException();
-		if (y <= 0 || y > size)
-			throw new IndexOutOfBoundsException();
-		return (x - 1) * size + y - 1;
+		return (x - 1) * numCol + y - 1;
 	}
 
 	public static void main(String[] args) {
-		int size = 9;
+		int size = 5;
 		Percolation percolation = new Percolation(size);
 		while (!percolation.percolates()) {
 			int i = StdRandom.uniform(1, size + 1);
@@ -117,10 +108,10 @@ public class Percolation {
 
 	void printResult() {
 		System.out.println("-----");
-		for (int i = 1; i < size + 1; i++) {
-			for (int j = 1; j < size + 1; j++) {
+		for (int i = 1; i < numCol + 1; i++) {
+			for (int j = 1; j < numCol + 1; j++) {
 				int id = xyToId(i, j);
-				if (sites[id]) {
+				if (isOpen[id]) {
 					System.out.print(".");
 				} else {
 					System.out.print(" ");
@@ -128,6 +119,6 @@ public class Percolation {
 			}
 			System.out.println();
 		}
-		System.out.println("-----");
+		System.out.println();
 	}
 }
