@@ -7,7 +7,7 @@ public class Percolation {
 	boolean[] sites;
 	WeightedQuickUnionUF unionFind;
 	int top;
-	int bottom;
+	boolean isPerculated;
 
 	/**
 	 * @param n
@@ -19,7 +19,6 @@ public class Percolation {
 		sites = new boolean[n * n];
 		unionFind = new WeightedQuickUnionUF(n * n + 2);
 		top = n * n;// TODO
-		bottom = n * n + 1;//TODO
 		//		for (int i=0; i< n; i++){
 		//			unionFind.union(i, top);
 		//			unionFind.union(n * (n-1) + i, bottom);
@@ -34,7 +33,7 @@ public class Percolation {
 	 * @param i
 	 * @param j
 	 */
-	public void open(int i, int j) {
+	public void open(int i, int j) {//TODO
 		int id = xyToId(i, j);
 		sites[id] = true;
 		
@@ -91,7 +90,7 @@ public class Percolation {
 	 * @return
 	 */
 	public boolean percolates() {
-		return unionFind.connected(top, bottom);
+		return isPerculated;
 	}
 
 	private int xyToId(int x, int y) {

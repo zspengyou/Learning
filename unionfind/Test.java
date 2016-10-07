@@ -1,42 +1,30 @@
 package unionfind;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.DecimalFormat;
-
+import java.util.Arrays;
 
 public class Test {
 
 	public static void main(String[] args) {
-		DecimalFormat df = new DecimalFormat("##0.00");
-		double amount = 2342.3;
-		System.out.println(df.format(amount));
+		String [] array = new String[]{"11010","10010"};
+		int numRow = array.length;
+		int numCol = array[0].length();		
+		char[][] grid = new char[numRow][numCol];
+		FillGridWithString.stringToChar(grid,array);
+		FillGridWithString.printResult(grid);
 		
-		
+		char [][] gridExtend = new char[numRow+1][numCol+1];
+		for(int i= 0; i<numRow;i++){
+			for( int j= 0; j<numCol; j++){
+				gridExtend[i][j] = grid[i][j];
+			}
+			gridExtend[i][numCol]='0';
+		}
+		Arrays.fill(gridExtend[numRow], '0');
+		FillGridWithString.printResult(gridExtend);
 		boolean stop = true;
-		if (stop)
-			return;
-		PercolationStats percolationStats = new Test.PercolationStats();
-		System.out.printf("%-25s = %f%n","mean",percolationStats.mean());
-		System.out.printf("%-25s = %f%n","stddev",percolationStats.stddev());
-		System.out.printf("%-25s = %f %f","%95 confidence interval%n",
-				percolationStats.confidenceLo(),
-				percolationStats.confidenceHi() );
+		if (stop) 	return;
+
 
 				
-	}
-	static class PercolationStats {
-		double mean(){
-			return 10.2342;
-		}
-		double stddev (){
-			return 12.24323;
-		}
-		double confidenceLo(){
-			return 254235.234;
-		}
-		double confidenceHi(){
-			return 252342.2323;
-		}
 	}
 }
