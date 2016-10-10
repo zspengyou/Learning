@@ -1,0 +1,2 @@
+[ERROR] PercolationStats.java:61:16: The local (or parameter) variable 'mean' has the same name as an instance variable. Use a different name. [HiddenField]
+[ERROR] PercolationStats.java:62:16: The local (or parameter) variable 'stddev' has the same name as an instance variable. Use a different name. [HiddenField]

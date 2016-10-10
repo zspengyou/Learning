@@ -1,3 +1,4 @@
+package unionfind;
 /******************************************************************************
  *  Compilation:  javac InteractivePercolationVisualizer.java
  *  Execution:    java InteractivePercolationVisualizer n
@@ -18,7 +19,7 @@ public class InteractivePercolationVisualizer {
 
     public static void main(String[] args) {
         // n-by-n percolation system (read from command-line, default = 10)
-        int n = 10;          
+        int n = 4;   //original is 10//TODO       
         if (args.length == 1) n = Integer.parseInt(args[0]);
 
         // repeatedly open site specified my mouse click and draw resulting system

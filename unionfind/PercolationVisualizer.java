@@ -1,3 +1,4 @@
+package unionfind;
 /******************************************************************************
  *  Compilation:  javac PercolationVisualizer.java
  *  Execution:    java PercolationVisualizer input.txt
@@ -17,6 +18,8 @@
  ******************************************************************************/
 
 import java.awt.Font;
+import java.io.File;
+import java.io.FilenameFilter;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
@@ -62,26 +65,49 @@ public class PercolationVisualizer {
     }
 
     public static void main(String[] args) {
-    	args = new String[1];
-    	args[0] = "C:\\dev\\src\\workspace\\forTest2\\src\\percolation\\heart25.txt";
-        In in = new In(args[0]);      // input file
-        int n = in.readInt();         // n-by-n percolation system
+    	args = new String[1];    	
+		String current = System.getProperty("user.dir");
+		System.out.println("current dir : "  + current);
+		File dir = new File(current + "\\src\\percolation");
+		File [] files = dir.listFiles(new FilenameFilter() {			
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".txt");
+			}
+		});
+		for (File file: files){
+			System.out.println("file to be tested: " + file);
+			System.out.printf("press %s to coninue, press %s to skip, press other to stop test","\"y\"","\"k\"");
+			In console = new In();
+			String next = console.readLine();
+			if(next.equalsIgnoreCase("k") ){
+				continue;
+			}else if(!next.equalsIgnoreCase("y")){
+				return;
+			}
+			args[0] = file.toString();
+	        In in = new In(args[0]);      // input file
+	        int n = in.readInt();         // n-by-n percolation system
 
-        // turn on animation mode
-        StdDraw.enableDoubleBuffering();
+	        // turn on animation mode
+	        StdDraw.enableDoubleBuffering();
 
-        // repeatedly read in sites to open and draw resulting system
-        Percolation perc = new Percolation(n);
-        draw(perc, n);
-        StdDraw.show();
-        StdDraw.pause(DELAY);
-        while (!in.isEmpty()) {
-            int i = in.readInt();
-            int j = in.readInt();
-            perc.open(i, j);
-            draw(perc, n);
-            StdDraw.show();
-            StdDraw.pause(DELAY);
-        }
+	        // repeatedly read in sites to open and draw resulting system
+	        Percolation perc = new Percolation(n);
+	        draw(perc, n);
+	        StdDraw.show();
+	        StdDraw.pause(DELAY);
+	        while (!in.isEmpty()) {
+	            int i = in.readInt();
+	            int j = in.readInt();
+	            perc.open(i, j);
+	            draw(perc, n);
+	            StdDraw.show();
+	            StdDraw.pause(DELAY);
+	        }
+			
+		}
+		
+
     }
 }

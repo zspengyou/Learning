@@ -1,4 +1,4 @@
-
+package unionfind;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
@@ -7,7 +7,7 @@ public class Percolation {
 	private boolean[] isOpen;
 	private WeightedQuickUnionUF unionFind;
 	private int virtualTop;
-	private boolean isPerculated;
+	private boolean [] bottomConnected;
 
 	/**
 	 * @param n
@@ -19,6 +19,7 @@ public class Percolation {
 		isOpen = new boolean[n * n];
 		unionFind = new WeightedQuickUnionUF(n * n + 1);
 		virtualTop = n * n;
+		bottomConnected = new boolean[n*n+1];
 	}
 
 	/**
@@ -29,31 +30,32 @@ public class Percolation {
 	public void open(int i, int j) {
 		int id = xyToId(i, j);
 		isOpen[id] = true;	
-		int left = id - 1;
-		if (left >= 0 && id % numCol != 0 && isOpen[left])
-			unionFind.union(id, left);
-
-		int right = id + 1;
-		if (right < numCol * numCol && right % numCol != 0 && isOpen[right])
-			unionFind.union(id, right);
-		
-		int above = id - numCol;
-		if (above < 0) {
-			unionFind.union(id, virtualTop);
-		} else if (isOpen[above]) {
-			unionFind.union(id, above);
+		boolean left = unionNeighbor(id,i,j-1);
+		boolean right = unionNeighbor(id,i,j+1);
+		boolean above = unionNeighbor(id,i+1,j);
+		boolean below = unionNeighbor(id,i-1,j);		
+		if(i == numCol || left || right||above || below ){			
+			bottomConnected[id] = true;
+			int root = unionFind.find(id);
+			bottomConnected[root] = true;
 		}
-		
-		int below = id + numCol;
-		if (below >= numCol * numCol) {
-
-		} else if (isOpen[below]) {
-			unionFind.union(id, below);
+	}
+	
+	private boolean unionNeighbor(int id, int p, int q){	
+		boolean neighborBottomConnected = false;
+		if(p==0){
+			unionFind.union(id,virtualTop);
 		}
-		
+		if(p > 0 && p <= numCol && q > 0 && q <= numCol){			
+			int neighbor = xyToId(p,q);
+			int neighborRoot = unionFind.find(neighbor);
+			neighborBottomConnected = bottomConnected[neighborRoot];
+			if(isOpen[neighbor]){
+				unionFind.union(id,neighbor);
+			}
 
-		if(unionFind.connected(id, virtualTop))
-			isPerculated = true;
+		}
+		return neighborBottomConnected;
 	}
 
 	/**
@@ -83,7 +85,8 @@ public class Percolation {
 	 * @return
 	 */
 	public boolean percolates() {
-		return isPerculated;
+		int topRoot = unionFind.find(virtualTop);
+		return bottomConnected[topRoot];
 	}
 
 	private int xyToId(int x, int y) {
@@ -92,21 +95,21 @@ public class Percolation {
 		return (x - 1) * numCol + y - 1;
 	}
 
-	public static void main(String[] args) {
-		int size = 5;
-		Percolation percolation = new Percolation(size);
-		while (!percolation.percolates()) {
-			int i = StdRandom.uniform(1, size + 1);
-			int j = StdRandom.uniform(1, size + 1);
-			System.out.println(i + " " + j);
-			if (!percolation.isOpen(i, j)) {
-				percolation.open(i, j);
-				percolation.printResult();
-			}
-		}
-	}
+//	public static void main(String[] args) {
+//		int size = 5;
+//		Percolation percolation = new Percolation(size);
+//		while (!percolation.percolates()) {
+//			int i = StdRandom.uniform(1, size + 1);
+//			int j = StdRandom.uniform(1, size + 1);
+//			System.out.println(i + " " + j);
+//			if (!percolation.isOpen(i, j)) {
+//				percolation.open(i, j);
+//				percolation.printResult();
+//			}
+//		}
+//	}
 
-	void printResult() {
+	private void printResult() {
 		System.out.println("-----");
 		for (int i = 1; i < numCol + 1; i++) {
 			for (int j = 1; j < numCol + 1; j++) {
@@ -119,6 +122,6 @@ public class Percolation {
 			}
 			System.out.println();
 		}
-		System.out.println();
+		System.out.println("-----");
 	}
 }

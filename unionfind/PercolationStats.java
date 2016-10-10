@@ -1,3 +1,4 @@
+package unionfind;
 
 
 import edu.princeton.cs.algs4.StdRandom;
@@ -5,11 +6,11 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 	
-	double means[];
-	int size;
-	int trials;
-	double mean;
-	double stddev;
+	private double means[];
+	private int size;
+	private int trials;
+	private double mean;
+	private double stddev;
 	/**
 	 * perform trials independent experiments on an n-by-n grid
 	 * @param n
