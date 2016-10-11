@@ -36,7 +36,7 @@ public class Deque<Item> implements Iterable<Item> {
 	 * @param item
 	 * @throws NullPointerException  if the client attempts to add a null item
 	 */
-	public void addFirst(Item item) throws NullPointerException {
+	public void addFirst(Item item){
 		if(item == null)
 			throw new NullPointerException("");
 
@@ -48,7 +48,7 @@ public class Deque<Item> implements Iterable<Item> {
 	 * @param item
 	 * @throws NullPointerException  if the client attempts to add a null item
 	 */
-	public void addLast(Item item) throws NullPointerException{
+	public void addLast(Item item){
 		if(item == null)
 			throw new NullPointerException("");
 
@@ -60,7 +60,7 @@ public class Deque<Item> implements Iterable<Item> {
 	 * @return
 	 * @throws NoSuchElementException if the client attempts to remove an item from an empty deque;
 	 */
-	public Item removeFirst()throws NoSuchElementException {
+	public Item removeFirst(){
 		if(isEmpty()) 
 			throw new NoSuchElementException("");
 		return null;
@@ -70,8 +70,7 @@ public class Deque<Item> implements Iterable<Item> {
 	/**
 	 * // remove and return the item from the end
 	 * 
-	 * @return 
-	 * @throws NoSuchElementException if the client attempts to remove an item from an empty deque;
+	 * @return 	
 	 */
 	public Item removeLast() {
 		if(isEmpty()) 
