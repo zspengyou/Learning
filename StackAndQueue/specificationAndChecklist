@@ -1,0 +1,31 @@
+
+We also require you to use StdIn (instead of java.util.Scanner) 
+because we will intercept the calls to StdIn in our testing.
+
+uniformly at random
+ using StdRandom.uniform(n) from StdRandom.
+ 
+ StdRandom.shuffle()
+ 
+ Item[] a = (Item[]) new Object[1];
+ Item[] a = new Item[1];  (will not work)
+ 
+ Will I lose points for loitering? 
+ 	Yes. Loitering is maintaining a useless reference to an object that could otherwise be garbage collected.
+ 	
+ resizing array does not support constant worst-case time operations in a stack.
+
+ResizingArrayStack.java uses a resizing array; LinkedStack.java uses a singly-linked list. 
+Both examples use iterators, foreach, and generics.
+
+Make sure that your memory use is linear in the current number of items, 
+	as opposed to the greatest number of items that has ever been in the data structure since its instantiation. 
+	If you're using a resizing array, you must resize the array when it becomes sufficiently empty.
+ 	You must also take care to avoid loitering anytime you remove an item.
+ 	
+Make sure to test what happens when your data structures are emptied. 
+	One very common bug is for something to go wrong when your data structure goes from non-empty to empty 
+	and then back to non-empty. 
+	
+Make sure to test that multiple iterators can be used simultaneously. 
+	 	  	
