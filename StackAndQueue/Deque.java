@@ -4,11 +4,23 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
+	Node first;
+	Node last;
+	int size;
+	private class Node{
+		Item item;
+		Node next;
+		Node previous;
+		public Node(Item item){
+			this.item = item;
+		}
+	}
+	
+	
 	/**
 	 * construct an empty deque
 	 */
 	public Deque() {
-
 	}
 
 	/**
@@ -17,17 +29,15 @@ public class Deque<Item> implements Iterable<Item> {
 	 * @return
 	 */
 	public boolean isEmpty() {
-		return false;
-
+		return size == 0;
 	}
 
 	/**
-	 * // return the number of items on the deque
-	 * 
+	 * return the number of items on the deque
 	 * @return
 	 */
 	public int size() {
-		return 0;
+		return size;
 
 	}
 
@@ -39,7 +49,16 @@ public class Deque<Item> implements Iterable<Item> {
 	public void addFirst(Item item){
 		if(item == null)
 			throw new NullPointerException("");
-
+		boolean empty = isEmpty();
+		size ++;
+		Node oldFirst = first;
+		first = new Node(item);		
+		if(empty){
+			last = first;
+		}else{
+			first.next = oldFirst;
+			oldFirst.previous = null;
+		}			
 	}
 
 	/**
@@ -51,6 +70,16 @@ public class Deque<Item> implements Iterable<Item> {
 	public void addLast(Item item){
 		if(item == null)
 			throw new NullPointerException("");
+		boolean empty = isEmpty();
+		size ++;
+		Node oldLast = last;
+		last = new Node(item);
+		if(empty){
+			first = last;
+		}else{
+			oldLast.next = last;
+			last.previous = oldLast;
+		}
 
 	}
 
@@ -63,7 +92,17 @@ public class Deque<Item> implements Iterable<Item> {
 	public Item removeFirst(){
 		if(isEmpty()) 
 			throw new NoSuchElementException("");
-		return null;
+		size --;
+		boolean empty = isEmpty();
+		Node oldFirst = first;
+		if(empty){
+			last = null;
+		}else{
+			first = first.next;
+			oldFirst.next = null;
+			first.previous = null;
+		}
+		return oldFirst.item;
 
 	}
 
@@ -75,7 +114,18 @@ public class Deque<Item> implements Iterable<Item> {
 	public Item removeLast() {
 		if(isEmpty()) 
 			throw new NoSuchElementException("");
-		return null;
+		size --;
+		boolean empty = isEmpty();
+		Node oldLast = last;
+		if(empty){
+			first = null;
+			last = null;
+		}else{
+			last = last.previous;
+			last.next = null;
+			oldLast.previous = null;
+		}				
+		return oldLast.item;
 
 	}
 
@@ -84,7 +134,10 @@ public class Deque<Item> implements Iterable<Item> {
 	 */
 	public Iterator<Item> iterator() {
 		return new Iterator<Item>() {
-
+			int size;
+			public void Iterator(){
+				this.size = 2;
+			}
 			@Override
 			public boolean hasNext() {
 				return false;
@@ -104,8 +157,11 @@ public class Deque<Item> implements Iterable<Item> {
 		};
 
 	}
-
+	/**
+	 * unit testing
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
-	} // unit testing
+	} 
 }
