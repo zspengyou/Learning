@@ -1,3 +1,23 @@
+Randomized queue. 
+item removed is chosen uniformly at random from items in the data structure. 
+
+Performance requirements. 
+	Your randomized queue implementation must support each randomized queue operation (besides creating an iterator) in constant amortized time. 
+	That is, any sequence of m randomized queue operations (starting from an empty queue) should take at most cm steps in the worst case, for some constant c. 
+	A randomized queue containing n items must use at most 48n + 192 bytes of memory.
+	your iterator implementation must support operations next() and hasNext() in constant worst-case time; 
+	construction in linear time; 
+	you may (and will need to) use a linear amount of extra memory per iterator.
+	
+Write a client program Subset.java 
+	 takes a command-line integer k; reads in a sequence of N strings from standard input using StdIn.readString(); 
+	 and prints out exactly k of them, uniformly at random. 
+	 Each item from the sequence can be printed out at most once. 
+	 You may assume that 0 <= k <= n, where N is the number of string on standard input.
+	 
+	 The running time of Subset must be linear in the size of the input. 
+	 You may use only a constant amount of memory plus either one Deque or RandomizedQueue object of maximum size at most n, where n is the number of strings on standard input. 
+	 (For an extra challenge, use only one Deque or RandomizedQueue object of maximum size at most k.)
 
 We also require you to use StdIn (instead of java.util.Scanner) 
 because we will intercept the calls to StdIn in our testing.

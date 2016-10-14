@@ -88,4 +88,24 @@ public class EasyMistake {
 		return neighborBottomConnected;
 
 	}
+	
+	class InstanceVariableInConstructor<Item> {
+		
+		Item queue[];
+		int capacity;
+		int size;
+		// construct an empty randomized queue
+		public InstanceVariableInConstructor() {
+			queue = (Item []) new Object[1];
+			capacity = 1;//TODO
+			size = 0;//TODO
+			
+		}
+		public InstanceVariableInConstructor(int i) {
+			queue = (Item []) new Object[1];
+			int capacity = 1;//TODO
+			int size = 0;//TODO
+			
+		}
+	}
 }

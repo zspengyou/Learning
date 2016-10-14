@@ -15,8 +15,7 @@ public class Deque<Item> implements Iterable<Item> {
 			this.item = item;
 		}
 	}
-	
-	
+		
 	/**
 	 * construct an empty deque
 	 */
@@ -63,7 +62,6 @@ public class Deque<Item> implements Iterable<Item> {
 
 	/**
 	 * // add the item to the end
-	 * 
 	 * @param item
 	 * @throws NullPointerException  if the client attempts to add a null item
 	 */
@@ -133,30 +131,36 @@ public class Deque<Item> implements Iterable<Item> {
 	 * // return an iterator over items in order from front to end
 	 */
 	public Iterator<Item> iterator() {
-		return new Iterator<Item>() {
-			int size;
-			public void Iterator(){
-				this.size = 2;
-			}
-			@Override
-			public boolean hasNext() {
-				return false;
-			}
-
-			@Override
-			public Item next() {
-				if(hasNext() == false)
-					throw new NoSuchElementException(""); 
-				return null;
-			}
-			
-			public void remove(){
-				throw new UnsupportedOperationException(""); 
-			}
-
-		};
+		return (Iterator<Item>) new DequeIterator();
 
 	}
+	class DequeIterator<Item> implements Iterator {
+		int size;
+		Node first;
+		public DequeIterator (){
+			this.size = Deque.this.size;
+			this.first = Deque.this.first;
+		}
+		@Override
+		public boolean hasNext() {
+			return size > 0;
+		}
+
+		@Override
+		public Item next() {
+			if(hasNext() == false)
+				throw new NoSuchElementException(""); 
+			size --;
+			Item item = (Item) first.item;
+			first = first.next;
+			return item;
+		}
+		
+		public void remove(){
+			throw new UnsupportedOperationException(""); 
+		}
+
+	};
 	/**
 	 * unit testing
 	 * @param args
