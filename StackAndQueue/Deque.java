@@ -7,15 +7,17 @@ public class Deque<Item> implements Iterable<Item> {
 	Node first;
 	Node last;
 	int size;
-	private class Node{
+
+	private class Node {
 		Item item;
 		Node next;
 		Node previous;
-		public Node(Item item){
+
+		public Node(Item item) {
 			this.item = item;
 		}
 	}
-		
+
 	/**
 	 * construct an empty deque
 	 */
@@ -33,6 +35,7 @@ public class Deque<Item> implements Iterable<Item> {
 
 	/**
 	 * return the number of items on the deque
+	 * 
 	 * @return
 	 */
 	public int size() {
@@ -42,39 +45,43 @@ public class Deque<Item> implements Iterable<Item> {
 
 	/**
 	 * add the item to the front
+	 * 
 	 * @param item
-	 * @throws NullPointerException  if the client attempts to add a null item
+	 * @throws NullPointerException
+	 *             if the client attempts to add a null item
 	 */
-	public void addFirst(Item item){
-		if(item == null)
+	public void addFirst(Item item) {
+		if (item == null)
 			throw new NullPointerException("");
 		boolean empty = isEmpty();
-		size ++;
+		size++;
 		Node oldFirst = first;
-		first = new Node(item);		
-		if(empty){
+		first = new Node(item);
+		if (empty) {
 			last = first;
-		}else{
+		} else {
 			first.next = oldFirst;
 			oldFirst.previous = null;
-		}			
+		}
 	}
 
 	/**
 	 * // add the item to the end
+	 * 
 	 * @param item
-	 * @throws NullPointerException  if the client attempts to add a null item
+	 * @throws NullPointerException
+	 *             if the client attempts to add a null item
 	 */
-	public void addLast(Item item){
-		if(item == null)
+	public void addLast(Item item) {
+		if (item == null)
 			throw new NullPointerException("");
 		boolean empty = isEmpty();
-		size ++;
+		size++;
 		Node oldLast = last;
 		last = new Node(item);
-		if(empty){
+		if (empty) {
 			first = last;
-		}else{
+		} else {
 			oldLast.next = last;
 			last.previous = oldLast;
 		}
@@ -85,17 +92,18 @@ public class Deque<Item> implements Iterable<Item> {
 	 * // remove and return the item from the front
 	 * 
 	 * @return
-	 * @throws NoSuchElementException if the client attempts to remove an item from an empty deque;
+	 * @throws NoSuchElementException
+	 *             if the client attempts to remove an item from an empty deque;
 	 */
-	public Item removeFirst(){
-		if(isEmpty()) 
+	public Item removeFirst() {
+		if (isEmpty())
 			throw new NoSuchElementException("");
-		size --;
+		size--;
 		boolean empty = isEmpty();
 		Node oldFirst = first;
-		if(empty){
+		if (empty) {
 			last = null;
-		}else{
+		} else {
 			first = first.next;
 			oldFirst.next = null;
 			first.previous = null;
@@ -107,22 +115,22 @@ public class Deque<Item> implements Iterable<Item> {
 	/**
 	 * // remove and return the item from the end
 	 * 
-	 * @return 	
+	 * @return
 	 */
 	public Item removeLast() {
-		if(isEmpty()) 
+		if (isEmpty())
 			throw new NoSuchElementException("");
-		size --;
+		size--;
 		boolean empty = isEmpty();
 		Node oldLast = last;
-		if(empty){
+		if (empty) {
 			first = null;
 			last = null;
-		}else{
+		} else {
 			last = last.previous;
 			last.next = null;
 			oldLast.previous = null;
-		}				
+		}
 		return oldLast.item;
 
 	}
@@ -134,13 +142,16 @@ public class Deque<Item> implements Iterable<Item> {
 		return (Iterator<Item>) new DequeIterator();
 
 	}
+
 	class DequeIterator<Item> implements Iterator {
 		int size;
 		Node first;
-		public DequeIterator (){
+
+		public DequeIterator() {
 			this.size = Deque.this.size;
 			this.first = Deque.this.first;
 		}
+
 		@Override
 		public boolean hasNext() {
 			return size > 0;
@@ -148,24 +159,26 @@ public class Deque<Item> implements Iterable<Item> {
 
 		@Override
 		public Item next() {
-			if(hasNext() == false)
-				throw new NoSuchElementException(""); 
-			size --;
+			if (hasNext() == false)
+				throw new NoSuchElementException("");
+			size--;
 			Item item = (Item) first.item;
 			first = first.next;
 			return item;
 		}
-		
-		public void remove(){
-			throw new UnsupportedOperationException(""); 
+
+		public void remove() {
+			throw new UnsupportedOperationException("");
 		}
 
 	};
+
 	/**
 	 * unit testing
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-	} 
+	}
 }

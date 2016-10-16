@@ -7,13 +7,14 @@ import java.util.NoSuchElementException;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-	
+
 	Item queue[];
 	int capacity;
 	int size;
+
 	// construct an empty randomized queue
 	public RandomizedQueue() {
-		queue = (Item []) new Object[1];
+		queue = (Item[]) new Object[1];
 		capacity = 1;
 		size = 0;
 	}
@@ -34,46 +35,50 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	public void enqueue(Item item) {
 		if (item == null)
 			throw new NullPointerException("");
-		if(size >= capacity){
+		if (size >= capacity) {
 			doubleCapacity();
 		}
 		queue[size++] = item;
 
 	}
-	public void doubleCapacity(){
-		Item [] oldQueue = queue;
-		queue = (Item[])new Object[capacity*2];
-		for(int i = 0; i < capacity; i ++)
+
+	public void doubleCapacity() {
+		Item[] oldQueue = queue;
+		queue = (Item[]) new Object[capacity * 2];
+		for (int i = 0; i < capacity; i++)
 			queue[i] = oldQueue[i];
 		capacity *= 2;
 	}
+
 	// remove and return a random item
 	public Item dequeue() {
 		if (isEmpty())
 			throw new NoSuchElementException("");
 		int pos = StdRandom.uniform(size);
 		Item result = queue[pos];
-		size --;
+		size--;
 		queue[pos] = queue[size];
-		queue[size] = null;		
-		if(size < capacity/4){
+		queue[size] = null;
+		if (size < capacity / 4) {
 			shrinkCapacity();
 		}
 		return result;
 
 	}
-	private void shrinkCapacity(){
+
+	private void shrinkCapacity() {
 		Item[] oldQueue = queue;
 		capacity /= 2;
 		queue = (Item[]) new Object[capacity];
-		for(int i = 0; i < capacity; i++)
-			queue[i] = oldQueue[i];		
+		for (int i = 0; i < capacity; i++)
+			queue[i] = oldQueue[i];
 	}
+
 	// return (but do not remove) a random item
 	public Item sample() {
 		if (isEmpty())
 			throw new NoSuchElementException("");
-		int pos = StdRandom.uniform(size);		
+		int pos = StdRandom.uniform(size);
 		return queue[pos];
 	}
 
@@ -84,14 +89,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 
 	private class RandomizedIterator implements Iterator<Item> {
-		Item [] iteratorQueue;
+		Item[] iteratorQueue;
 		int pos;
-		public RandomizedIterator(){
+
+		public RandomizedIterator() {
 			iteratorQueue = Arrays.copyOfRange(RandomizedQueue.this.queue, 0, RandomizedQueue.this.size);
-			StdRandom.shuffle(iteratorQueue); 
+			StdRandom.shuffle(iteratorQueue);
 			int pos = 0;
 		}
-		
+
 		@Override
 		public boolean hasNext() {
 			return pos < iteratorQueue.length;
@@ -111,7 +117,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 
 	// unit testing
-//	public static void main(String[] args) {
-//
-//	}
+	// public static void main(String[] args) {
+	//
+	// }
 }
