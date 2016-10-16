@@ -6,5 +6,12 @@ public class Test {
 		System.out.println("hello world");
 		
 	}
+	static <Item> void printResult(Iterable<Item> iterator){
+		System.out.println("****************");
+		for(Item string: iterator){
+			System.out.println(string);
+		}
+		System.out.println("****************");
+	}
 
 }
