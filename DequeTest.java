@@ -33,12 +33,14 @@ public class DequeTest {
 	private static void test3(){
 		Deque<String> deque = new Deque<String> ();
 		deque.addFirst("second");
+		
 		deque.addFirst("First");
 		Test.printResult(deque);
 		System.out.println("remove: "+deque.removeLast());
 		Test.printResult(deque);
 		System.out.println("remove: "+deque.removeLast());
 		Test.printResult(deque);
+		System.out.println("remove: "+deque.removeLast());
 	}
 
 
