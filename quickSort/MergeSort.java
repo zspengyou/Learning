@@ -5,15 +5,19 @@ public class MergeSort {
 
 	private MergeSort(){}
 	private static void merge(Comparable[] a, Comparable[] aux, int low, int mid, int high){	
+		assert isSorted(a,low,mid);
+		assert isSorted(a,mid+1,high);
+		for(int k = low; k <= high; k++)
+			aux[k] = a[k];
 		int i = low;
 		int j = mid;
-		int k = low;
-		while(i<=mid || j<=high){
-			if		(i>mid)		aux[k++] = a[j++];
-			else if	(j>high) 	aux[k++] = a[i++];
-			else if (less(a[j],a[i])) aux[k++] = a[j++];
-			else aux[k++] = a[i++];
+		for(int k = low; k <= high; k++){
+			if (i > mid) a[k++] = aux[j++];
+			else if(j > high) a[k++] = aux[i++];
+			else if(less(aux[j],aux[i])) a[k++] = aux[j];
+			else a[k++] = a[i];
 		}
+		assert isSorted(a,low,high);
 	}
 	private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi){
 		if(lo >= hi) return;
