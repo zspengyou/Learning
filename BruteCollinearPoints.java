@@ -18,13 +18,13 @@ public class BruteCollinearPoints {
                 throw new NullPointerException("");
         }      
         int length = points.length;
-        Arrays.sort(points);
+        this.points = Arrays.copyOf(points, length);
+        Arrays.sort(this.points);
         for (int i = 0; i < length - 1; i++) {
-            if (points[i].compareTo(points[i + 1]) == 0) {
+            if (this.points[i].compareTo(this.points[i + 1]) == 0) {
                 throw new IllegalArgumentException("");
             }
         }
-        this.points = points;
     }
 
     // the number of line segments
