@@ -1,0 +1,15 @@
+Specification:
+Write a program to recognize line patterns in a given set of points.
+Computer vision:
+	feature detection and pattern recognition
+	Feature detection involves selecting important features of the image; 
+	pattern recognition involves discovering patterns in the features.The problem. 
+	Given a set of n distinct points in the plane, 
+	find every (maximal) line segment that connects a subset of 4 
+	or more of the points.	 
+
+	slopeTo()  to check positive infinity, negative infinity
+
+
+
+check list

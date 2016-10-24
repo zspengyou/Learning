@@ -59,7 +59,17 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        /* YOUR CODE HERE */
+        int x1 = that.x;
+        int y1 = that.y;
+        if(x1  == x){
+            if(y1 == y) {
+                return Double.NEGATIVE_INFINITY;
+            }else{
+                return Double.POSITIVE_INFINITY;
+            }
+        }
+        
+        return (y1 - y)/(x1 - x);
     }
 
     /**
@@ -75,7 +85,19 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        /* YOUR CODE HERE */
+        int x1 = that.x;
+        int y1 = that.y;
+        if( y > y1 ){
+            return 1;
+        }else if( y < y1){
+            return -1;
+        }else if( x > x1 ){
+            return 1;            
+        }else if (x < x1){
+            return -1;
+        }else{
+            return 0;
+        }
     }
 
     /**
@@ -85,9 +107,17 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        /* YOUR CODE HERE */
+        return new SlopeComparator();
     }
-
+    private class SlopeComparator implements Comparator<Point>{
+        @Override
+        public int compare(Point o1, Point o2) {
+            Double slope1 = slopeTo(o1);
+            Double slope2 = slopeTo(o2);            
+            return slope1.compareTo(slope2);
+        }
+        
+    }
 
     /**
      * Returns a string representation of this point.
@@ -105,6 +135,8 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        /* YOUR CODE HERE */
+        Point p1 = new Point(1,2);
+        Point p2 = new Point(1,2);
+        System.out.println(p1.slopeTo(p2));
     }
 }
