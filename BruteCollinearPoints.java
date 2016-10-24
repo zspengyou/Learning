@@ -16,6 +16,13 @@ public class BruteCollinearPoints {
         for (Point point : points) {
             if (point == null)
                 throw new NullPointerException("");
+        }      
+        int length = points.length;
+        Arrays.sort(points);
+        for (int i = 0; i < length - 1; i++) {
+            if (points[i].compareTo(points[i + 1]) == 0) {
+                throw new IllegalArgumentException("");
+            }
         }
         this.points = points;
     }
@@ -29,6 +36,8 @@ public class BruteCollinearPoints {
 
     // the line segments
     public LineSegment[] segments() {
+        if(lineSegment != null )
+            return lineSegment.toArray(new LineSegment[0]);
         int length = points.length;
         lineSegment = new ArrayList<LineSegment>();
         for (int i = 0; i < length - 3; i++) {
@@ -62,7 +71,7 @@ public class BruteCollinearPoints {
     public static void main(String [] args) {
         String current = System.getProperty("user.dir");
 //        In in = new In(current + "\\src\\collinear\\input6.txt");
-        In in = new In(".\\src\\collinear\\input6.txt");
+        In in = new In(".\\src\\collinear\\input8.txt");
         int n = in.readInt();
         Point[] points = new Point[n];
         for (int i = 0; i < n; i++) {
