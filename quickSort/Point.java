@@ -1,3 +1,4 @@
+package quickSort;
 /******************************************************************************
  *  Compilation:  javac Point.java
  *  Execution:    java Point

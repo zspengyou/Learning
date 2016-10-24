@@ -1,6 +1,6 @@
+package quickSort;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import edu.princeton.cs.algs4.In;
@@ -57,14 +57,12 @@ public class FastCollinearPoints {
             int count = 0;
             double previous = slope[1];
             for (int i = 1; i <= length; i++) {
-                if (slope[i] == previous) {
-                    count++;
-                } else {
+            	if(i== length ||slope[i] != previous) {
                     if (count >= 3) {
                         if(points[0].compareTo(points[i -1])>0){
-                            pointSlope = points[0].toString()+slope[i-1];
+                            pointSlope =""+ points[0]+slope[i-1];
                         }else{
-                            pointSlope = points[i -1].toString()+slope[i-1];
+                            pointSlope = ""+points[i -1]+slope[i-1];
                         }                        
                         if(!pointSlopes.contains(pointSlope)){
                             pointSlopes.add(pointSlope);
@@ -74,6 +72,8 @@ public class FastCollinearPoints {
                     }
                     previous = slope[i];
                     count = 1;
+                }else {
+                    count++;
                 }
             }
         }
@@ -82,7 +82,7 @@ public class FastCollinearPoints {
     }    
     public static void main(String[] args) {
       String current = System.getProperty("user.dir");
-      In in = new In(".\\src\\collinear\\input40.txt");
+      In in = new In(".\\src\\collinear\\vertical100.txt");
       int n = in.readInt();
       Point[] points = new Point[n];
       for (int i = 0; i < n; i++) {
