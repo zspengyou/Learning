@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
@@ -9,7 +11,7 @@ public class FastCollinearPoints {
     private Point[] points;
     private double[] slope;
     private ArrayList<LineSegment> lineSegment;
-    private ArrayList<String> pointSlopes;
+    private HashSet<String> pointSlopes;
 
     // finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
@@ -42,17 +44,16 @@ public class FastCollinearPoints {
             return lineSegment.toArray(new LineSegment[0]);
         int length = points.length;
         if(length < 4) return new LineSegment[0];
-        slope = new double[length];
+        slope = new double[length + 1];
         lineSegment = new ArrayList<LineSegment>();
-        pointSlopes = new ArrayList<String>();
+        pointSlopes = new HashSet<String>();
         String pointSlope;
         for(int pointIndex = 0; pointIndex < length; pointIndex ++){
             Arrays.sort(points);
             Arrays.sort(points, points[pointIndex].slopeOrder());
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < length; i++)
                 slope[i] = points[0].slopeTo(points[i]);
-            }            
-            
+            slope[length] = slope[length-1]+1;
             int count = 0;
             double previous = slope[1];
             for (int i = 1; i < length; i++) {
@@ -64,38 +65,23 @@ public class FastCollinearPoints {
                             pointSlope = points[0].toString()+slope[i-1];
                         }else{
                             pointSlope = points[i -1].toString()+slope[i-1];
-                        }
-                        
+                        }                        
                         if(!pointSlopes.contains(pointSlope)){
                             pointSlopes.add(pointSlope);
                             LineSegment seg = new LineSegment(points[0], points[i-1]);
                             lineSegment.add(seg);
                         }
-
                     }
                     previous = slope[i];
                     count = 1;
                 }
             }
-            int i = length;
-            if (count >= 3) {
-                if(points[0].compareTo(points[i -1])>0){
-                    pointSlope = points[0].toString()+slope[i-1];
-                }else{
-                    pointSlope = points[i -1].toString()+slope[i-1];
-                }
-                if(!pointSlopes.contains(pointSlope)){
-                    pointSlopes.add(pointSlope);
-                    LineSegment seg = new LineSegment(points[0], points[length-1]);
-                    lineSegment.add(seg);
-                }
-            }
         }
         
         return lineSegment.toArray(new LineSegment[0]);
-    }
+    }    
     public static void main(String[] args) {
-        String current = System.getProperty("user.dir");
+      String current = System.getProperty("user.dir");
       In in = new In(".\\src\\collinear\\input40.txt");
       int n = in.readInt();
       Point[] points = new Point[n];
