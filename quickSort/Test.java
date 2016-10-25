@@ -1,13 +1,15 @@
 package quickSort;
 
+import edu.princeton.cs.algs4.Merge;
+
 public class Test {
 
     public static void main(String[] args) {
         System.out.println("hello world");
-//        Point p1 = new Point(1,2);
-//        Point p2 = new Point(1,2);
-        
-
+        String [] testString = new String[]{"c","a","b","d"};
+        int[] result = Merge.indexSort(testString);
+        for(int i: result)
+        	System.out.println(i);
     }
 
 }
