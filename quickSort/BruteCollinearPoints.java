@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
-public class BruteCollinearPoints implements collinearPoints {
+public class BruteCollinearPoints {
     private Point[] points;
     private ArrayList<LineSegment> lineSegment;
 
@@ -32,7 +32,6 @@ public class BruteCollinearPoints implements collinearPoints {
     /* (non-Javadoc)
 	 * @see quickSort.collinearPoints#numberOfSegments()
 	 */
-    @Override
 	public int numberOfSegments() {
         if (lineSegment == null)
             segments();
@@ -43,7 +42,6 @@ public class BruteCollinearPoints implements collinearPoints {
     /* (non-Javadoc)
 	 * @see quickSort.collinearPoints#segments()
 	 */
-    @Override
 	public LineSegment[] segments() {
         if(lineSegment != null )
             return lineSegment.toArray(new LineSegment[0]);
@@ -99,7 +97,7 @@ public class BruteCollinearPoints implements collinearPoints {
         StdDraw.show();
 
         // print and draw the line segments
-        collinearPoints collinear = new BruteCollinearPoints(points);
+        BruteCollinearPoints collinear = new BruteCollinearPoints(points);
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
             segment.draw();
