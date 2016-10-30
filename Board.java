@@ -2,6 +2,8 @@
 public class Board {
     // construct a board from an n-by-n array of blocks
     // (where blocks[i][j] = block in row i, column j)
+    private int n;
+    private int[][] tiles;
     public Board(int[][] blocks) {
     }
 
@@ -43,7 +45,15 @@ public class Board {
     // string representation of this board (in the output format specified
     // below)
     public String toString() {
-        return null;
+        StringBuilder s = new StringBuilder();
+        s.append(n + "\n");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                s.append(String.format("%2d ", tiles[i][j]));
+            }
+            s.append("\n");
+        }
+        return s.toString();
     }
 
     // unit tests (not graded)

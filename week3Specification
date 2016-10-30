@@ -6,4 +6,19 @@ Manhattan priority function.
 	The sum of the Manhattan distances (sum of the vertical and horizontal distance) from the blocks to their goal positions,
 	 plus the number of moves made so far to get to the search node.
 	 
-	 
+Is 0 a block? 
+	No, 0 represents the blank square. 
+	Do not treat it as a block when computing either the Hamming or Manhattan priority functions.
+	
+Should the hamming() and manhattan() methods in Board return the Hamming and Manhattan priority functions, respectively? 
+	No, hamming() should return the number of blocks out of position 
+	manhattan() should return the sum of the Manhattan distances between the blocks and their goal positions. 
+	Recall that the blank square is not considered a block. 
+	You will compute the priority function in Solver by calling hamming() or manhattan() and adding to it the number of moves.
+	
+How do I reconstruct the solution once I've dequeued the goal search node? 
+	Since each search node records the previous search node to get there, 
+	you can chase the pointers all the way back to the initial search node (and consider them in reverse order).
+	
+I run out of memory when running some of the large sample puzzles. What should I do? 
+	Be sure to ask Java for additional memory, e.g., java -Xmx1600m Solver puzzle36.txt. 			
