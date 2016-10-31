@@ -17,6 +17,7 @@ public class Solver {
     	pq.add(new MinPQ<SearchNode>());
     	pq.add(new MinPQ<SearchNode>());    	
         solvePuzzle(initial);
+        solvePuzzleSimple(initial);
     }
     private void solvePuzzle(Board initial){
     	int move = 0;
@@ -43,6 +44,27 @@ public class Solver {
     	solvable = pq.get(0).min().isGoal();
     	moves = move;    
     }
+    private void solvePuzzleSimple(Board initial){
+    	int move = 0;
+    	SearchNode initialNode = new SearchNode(null,initial,move);
+    	MinPQ<SearchNode> priorityQueue = new MinPQ<SearchNode>();
+    	priorityQueue.insert(initialNode);
+    	while(!priorityQueue.min().isGoal()){
+    		move ++ ;
+    		SearchNode currentNode = priorityQueue.delMin();
+    		Board currentBoard = currentNode.getBoard();
+    		System.out.println(currentBoard);
+    		Board preBoard = currentNode.getPre()==null? null:currentNode.getPre().getBoard();
+    		System.out.println(preBoard);
+    		for(Board neighborBoard: currentBoard.neighbors()){
+    			System.out.println(neighborBoard);
+    			if(neighborBoard.equals(preBoard)) continue;
+    			SearchNode neighborNode = new SearchNode(currentNode,neighborBoard,move);
+    			priorityQueue.insert(neighborNode);
+    		}
+    	}   
+    }
+    
     // is the initial board solvable?
     public boolean isSolvable() {
         return solvable;
@@ -67,7 +89,7 @@ public class Solver {
 
     // solve a slider puzzle (given below)
     public static void main(String[] args) {
-        In in = new In("./src/8puzzle/puzzle3x3-01.txt");
+        In in = new In("./src/8puzzle/puzzle3x3-04.txt");
         int n = in.readInt();
         int[][] blocks = new int[n][n];
         for (int i = 0; i < n; i++)

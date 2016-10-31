@@ -75,6 +75,7 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
+    	//TODO
     	int [][] tilesTwin = moveOneStep(0,0,Direction.RIGHT);
     	Board twinBorad = new Board(tilesTwin);
     	return twinBorad;
@@ -166,13 +167,4 @@ public class Board {
     	}
     }
 
-}
-class BoardComparator implements Comparator<Board>{
-
-	@Override
-	public int compare(Board o1, Board o2) {
-		return 0;
-	}
-
-	
 }
