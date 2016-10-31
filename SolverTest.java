@@ -5,13 +5,14 @@ public class SolverTest {
     public static void main(String[] args) {
 
         // create initial board from file
-        In in = new In(args[0]);
+        In in = new In("./src/8puzzle/puzzle3x3-01.txt");
         int n = in.readInt();
         int[][] blocks = new int[n][n];
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
                 blocks[i][j] = in.readInt();
         Board initial = new Board(blocks);
+        System.out.println(initial);
 
         // solve the puzzle
         Solver solver = new Solver(initial);

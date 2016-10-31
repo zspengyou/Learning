@@ -21,4 +21,4 @@ How do I reconstruct the solution once I've dequeued the goal search node?
 	you can chase the pointers all the way back to the initial search node (and consider them in reverse order).
 	
 I run out of memory when running some of the large sample puzzles. What should I do? 
-	Be sure to ask Java for additional memory, e.g., java -Xmx1600m Solver puzzle36.txt. 			
+	Be sure to ask Java for additional memory, e.g., java -Xmx1600m Solver puzzle36.txt. 	

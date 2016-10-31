@@ -1,46 +1,111 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+
+import edu.princeton.cs.algs4.In;
 
 public class Board {
     // construct a board from an n-by-n array of blocks
     // (where blocks[i][j] = block in row i, column j)
-    private int n;
-    private int[][] tiles;
+	private enum Direction{
+		UP(-1,0),DOWN(1,0),LEFT(0,-1),RIGHT(0,1);
+		int x;
+		int y;
+		Direction(int x, int y){
+			this.x = x;
+			this.y = y;
+		}
+		int getX(){
+			return x;			
+		}
+		int getY(){
+			return y;
+		}
+	}
+    private final int n;
+    private final int[][] tiles;
     public Board(int[][] blocks) {
+    	n = blocks.length;
+    	tiles = new int [n][n];
+    	for(int i = 0; i< n; i++){
+    		for(int j = 0; j< n; j++){
+    			tiles[i][j] = blocks[i][j];
+    		}
+    	}
     }
 
     // board dimension n
     public int dimension() {
-        return 0;
+        return n;
     }
 
     // number of blocks out of place
     public int hamming() {
-        return 0;
+    	int hamming = 0;
+    	for(int i=0; i<n; i++){
+    		for(int j= 0; j< n; j++){
+    			if(tiles[i][j] != i*n+j+1)
+    				hamming ++;
+    		}
+    	}
+    	hamming --;
+        return hamming;
     }
 
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
-        return 0;
+    	int manhattan = 0;
+    	for(int i=0; i<n; i++){
+    		for(int j= 0; j< n; j++){
+    			int actual = tiles[i][j] -1;
+    			if(actual == -1) continue;    			
+    			int row = actual/n;
+    			int col = actual%n;
+    			manhattan += Math.abs(i-row);
+    			manhattan += Math.abs(j-col);
+    		}
+    	}
+        return manhattan;
     }
 
     // is this board the goal board?
     public boolean isGoal() {
-        return false;
+    	int hamming = hamming();    	
+        return hamming == 0;
     }
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
-        return null;
+    	int [][] tilesTwin = moveOneStep(0,0,Direction.RIGHT);
+    	Board twinBorad = new Board(tilesTwin);
+    	return twinBorad;
     }
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return false;
+    	if(y == this) return true;
+    	if(y == null) return false;
+    	if(y.getClass() != this.getClass()) return false;
+    	Board board = (Board)y;    	
+        return this.toString().equals(board.toString());
     }
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        return null;
+    	ArrayList<Board> list = new ArrayList<Board>();
+    	int[] result = new int[2];
+    	getZeroPos(result);
+    	int row = result[0];
+    	int col = result[1];
+    	int [][] neighbor;
+    	for(Direction direction : Direction.values()){
+    		neighbor = moveOneStep(row,col,direction);
+    		if(neighbor == null) continue;
+    		Board board = new Board(neighbor);
+    		list.add(board);	
+    	}
+        return list;
     }
+    
 
     // string representation of this board (in the output format specified
     // below)
@@ -58,6 +123,56 @@ public class Board {
 
     // unit tests (not graded)
     public static void main(String[] args) {
+    	In in = new In("./src/8puzzle/puzzle3x3-00.txt");
+        int n = in.readInt();
+        int[][] blocks = new int[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                blocks[i][j] = in.readInt();
+        Board initial = new Board(blocks);
+        System.out.println(initial);
+        System.out.println("hamming: " + initial.hamming());
+        System.out.println("manhattan: " + initial.manhattan());
+        System.out.println("twin: " + initial.twin());
+        for(Board board : initial.neighbors()){
+        	System.out.println("neighbor: " + board);        	
+        }
+    }
+    private int[][] moveOneStep(int x, int y,Direction direction){
+    	int row = x + direction.getX();
+    	int col = y + direction.getY();
+    	if(row < 0 || row >= n || col <0 || col >= n)
+    		return null;
+    	int [][] tilesTwin = new int[n][n];
+    	for(int i = 0; i< n; i++){
+    		for(int j = 0; j< n; j++){
+    			tilesTwin[i][j] = tiles[i][j];
+    		}
+    	}
+
+    	int tmp = tilesTwin[x][y];
+    	tilesTwin[x][y] = tilesTwin[row][col];
+    	tilesTwin[row][col] = tmp;
+    	return tilesTwin;
+    }
+    private void getZeroPos(int[] result){
+    	for(int i = 0; i< n; i++){
+    		for(int j = 0; j< n; j++){
+    			if(tiles[i][j] == 0){
+    				result[0] = i;
+    				result[1] = j;
+    			}    				    			
+    		}
+    	}
     }
 
+}
+class BoardComparator implements Comparator<Board>{
+
+	@Override
+	public int compare(Board o1, Board o2) {
+		return 0;
+	}
+
+	
 }
