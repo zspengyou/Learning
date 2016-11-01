@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import edu.princeton.cs.algs4.In;
 
@@ -75,8 +74,13 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
-    	//TODO
-    	int [][] tilesTwin = moveOneStep(0,0,Direction.RIGHT);
+    	int [][] tilesTwin ;
+    	if(tiles[0][0] != 0){
+    		tilesTwin = moveOneStep(0,0,Direction.RIGHT);
+    	}else{
+    		tilesTwin = moveOneStep(0,1,Direction.DOWN);
+    	}
+    	
     	Board twinBorad = new Board(tilesTwin);
     	return twinBorad;
     }
