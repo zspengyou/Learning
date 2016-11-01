@@ -5,6 +5,9 @@ import edu.princeton.cs.algs4.In;
 public class Board {
     // construct a board from an n-by-n array of blocks
     // (where blocks[i][j] = block in row i, column j)
+//	private Board pre;
+	private Integer manhattan;
+//	private Direction from;
 	private enum Direction{
 		UP(-1,0),DOWN(1,0),LEFT(0,-1),RIGHT(0,1);
 		int x;
@@ -30,7 +33,16 @@ public class Board {
     			tiles[i][j] = blocks[i][j];
     		}
     	}
+//    	pre = null;
     }
+//    public Board(int[][] blocks, Board pre) {
+//    	this(blocks);
+//    	this.pre = pre;
+//    }
+//    public Board(int[][] blocks, Direction from) {
+//    	this(blocks);
+//    	this.from = from;
+//    }
 
     // board dimension n
     public int dimension() {
@@ -52,16 +64,18 @@ public class Board {
 
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
-    	int manhattan = 0;
-    	for(int i=0; i<n; i++){
-    		for(int j= 0; j< n; j++){
-    			int actual = tiles[i][j] -1;
-    			if(actual == -1) continue;    			
-    			int row = actual/n;
-    			int col = actual%n;
-    			manhattan += Math.abs(i-row);
-    			manhattan += Math.abs(j-col);
-    		}
+    	if(manhattan == null){
+        	manhattan = 0;
+        	for(int i=0; i<n; i++){
+        		for(int j= 0; j< n; j++){
+        			int actual = tiles[i][j] -1;
+        			if(actual == -1) continue;    			
+        			int row = actual/n;
+        			int col = actual%n;
+        			manhattan += Math.abs(i-row);
+        			manhattan += Math.abs(j-col);
+        		}
+        	}
     	}
         return manhattan;
     }
@@ -170,5 +184,6 @@ public class Board {
     		}
     	}
     }
+    
 
 }

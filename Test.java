@@ -2,10 +2,43 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Test {
+	private enum Direction{
+		up(1),left(2),down(3),right(4);
+		int val;
+		Direction(int val){
+			this.val = val;
+		}
+		public int getVal(){
+			return val;
+		}
+	}
 
 	public static void main(String[] args) {
-		System.out.println("this is a good keyboardboard board board board board board ");
-		System.out.println("hello world");
+		Direction up = Direction.up;
+		Direction down = Direction.down;
+		Direction left = Direction.left;
+		Direction right = Direction.right;
+		int distance ;
+		distance = Math.abs(up.getVal() - down.getVal());
+		System.out.println(distance);
+		distance = Math.abs(up.getVal() - left.getVal());
+		System.out.println(distance);
+		distance = Math.abs(up.getVal() - right.getVal());
+		System.out.println(distance);
+		distance = Math.abs(up.getVal() - up.getVal());
+		System.out.println(distance);
+		
+		
+	}
+	static <Item> void printResult(Iterable<Item> iterator){
+		System.out.println("****************");
+		for(Item string: iterator){
+			System.out.println(string);
+		}
+		System.out.println("****************");
+		
+	}
+	static void testIterator(){
 		LinkedList <Integer> list = new LinkedList<Integer>();
 		list.add(0);
 		list.add(1);
@@ -21,16 +54,6 @@ public class Test {
 			System.out.println(num);
 		}
 		printResult(()->list.descendingIterator());
-
-
-		
-	}
-	static <Item> void printResult(Iterable<Item> iterator){
-		System.out.println("****************");
-		for(Item string: iterator){
-			System.out.println(string);
-		}
-		System.out.println("****************");
 	}
 
 }
