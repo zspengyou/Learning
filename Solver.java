@@ -17,49 +17,57 @@ public class Solver {
     	pq.add(new MinPQ<SearchNode>());
     	pq.add(new MinPQ<SearchNode>());    	
         solvePuzzle(initial);
-        solvePuzzleSimple(initial);
+//        solvePuzzleSimple(initial);
     }
     private void solvePuzzle(Board initial){
-    	int move = 0;
-    	SearchNode initialNode = new SearchNode(null,initial,move);
-    	SearchNode twinInitial = new SearchNode(null,initial.twin(),move);
+    	
+    	SearchNode initialNode = new SearchNode(null,initial,0);
+    	SearchNode twinInitial = new SearchNode(null,initial.twin(),0);
     	pq.get(0).insert(initialNode);
     	pq.get(1).insert(twinInitial);
+    	int move = 0;
     	while(!pq.get(0).min().isGoal() &&!pq.get(1).min().isGoal() ){
-    		move ++ ;
+    		
     		for(MinPQ<SearchNode> priorityQueue: pq){
         		SearchNode currentNode = priorityQueue.delMin();
+        		move = currentNode.getMove() + 1;
         		Board currentBoard = currentNode.getBoard();
-        		System.out.println(currentBoard);
+//        		System.out.println(currentBoard);
         		Board preBoard = currentNode.getPre()==null? null:currentNode.getPre().getBoard();
-        		System.out.println(preBoard);
+//        		System.out.println(preBoard);
         		for(Board neighborBoard: currentBoard.neighbors()){
-        			System.out.println(neighborBoard);
+//        			System.out.println(neighborBoard);
         			if(neighborBoard.equals(preBoard)) continue;
         			SearchNode neighborNode = new SearchNode(currentNode,neighborBoard,move);
         			priorityQueue.insert(neighborNode);
         		}
     		}
     	}
-    	solvable = pq.get(0).min().isGoal();
-    	moves = move;    
+    	SearchNode goalNode = pq.get(0).min();
+    	solvable = goalNode.isGoal();
+    	if(solvable){
+    		moves = goalNode.getMove();        		
+    	}else{
+    		moves = -1;
+    	}
     }
     private void solvePuzzleSimple(Board initial){
-    	int move = 0;
-    	SearchNode initialNode = new SearchNode(null,initial,move);
+    	SearchNode initialNode = new SearchNode(null,initial,0);
     	MinPQ<SearchNode> priorityQueue = new MinPQ<SearchNode>();
     	priorityQueue.insert(initialNode);
-    	while(!priorityQueue.min().isGoal()){
-    		move ++ ;
+    	while(!priorityQueue.min().isGoal()){    		
     		SearchNode currentNode = priorityQueue.delMin();
+    		int move = currentNode.getMove() + 1;
+    		System.out.println("currentNOde: " + currentNode);
     		Board currentBoard = currentNode.getBoard();
-    		System.out.println(currentBoard);
+    		
     		Board preBoard = currentNode.getPre()==null? null:currentNode.getPre().getBoard();
-    		System.out.println(preBoard);
+//    		System.out.println("preBoard: "+ preBoard);
     		for(Board neighborBoard: currentBoard.neighbors()){
-    			System.out.println(neighborBoard);
+//    			System.out.println("neighbor : " + neighborBoard);
     			if(neighborBoard.equals(preBoard)) continue;
     			SearchNode neighborNode = new SearchNode(currentNode,neighborBoard,move);
+    			System.out.println("neighborNode : " + neighborNode);
     			priorityQueue.insert(neighborNode);
     		}
     	}   
@@ -89,7 +97,7 @@ public class Solver {
 
     // solve a slider puzzle (given below)
     public static void main(String[] args) {
-        In in = new In("./src/8puzzle/puzzle3x3-04.txt");
+        In in = new In("./src/8puzzle/puzzle4x4-36.txt");
         int n = in.readInt();
         int[][] blocks = new int[n][n];
         for (int i = 0; i < n; i++)
@@ -114,9 +122,11 @@ public class Solver {
     	final Board board;
     	final SearchNode pre;
     	final int priority;
+    	final int move;
     	public SearchNode(SearchNode pre,Board board, int move){
     		this.pre = pre;
     		this.board = board;
+    		this.move = move;
     		priority = board.manhattan() + move;
     	}
 		@Override
@@ -133,6 +143,15 @@ public class Solver {
 		}
 		public SearchNode getPre(){
 			return pre;
+		}
+		public int getMove(){
+			return move;
+		}
+		public String toString(){
+			StringBuilder sb = new StringBuilder();
+			sb.append("priority: " + priority + "\n");
+			sb.append(board.toString());
+			return sb.toString();
 		}
     }
 }

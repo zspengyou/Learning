@@ -280,6 +280,14 @@ public class MinPQ<Key> implements Iterable<Key> {
         }
         StdOut.println("(" + pq.size() + " left on pq)");
     }
+    public String toString(){
+    	StringBuilder sb = new StringBuilder();
+    	for(Key key : pq){
+    		sb.append(key.toString());
+    	}
+    	String string = sb.toString();
+    	return string;
+    }
 
 }
 
