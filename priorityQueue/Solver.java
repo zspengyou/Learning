@@ -1,7 +1,10 @@
+package priorityQueue;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import edu.princeton.cs.algs4.In;
@@ -123,13 +126,18 @@ public class Solver {
 
     // sequence of boards in a shortest solution; null if unsolvable
     public Iterable<Board> solution() {
-    	SearchNode node = priorityQueue.delMin();
+        MinPQ<SearchNode> copy = new MinPQ<SearchNode>();
+        Iterator<SearchNode> iterator = priorityQueue.iterator();
+        while(iterator.hasNext())
+            copy.insert(iterator.next());
+    	SearchNode node = copy.delMin();
     	LinkedList<Board> list = new LinkedList<Board>();
     	list.add(node.getBoard());
     	while(node.getPre()!= null){
     		node = node.getPre();
     		list.add(node.getBoard());
     	}
+    	if (list.size() == 0) return null;
         return ()-> list.descendingIterator();
     }
 
@@ -141,7 +149,7 @@ public class Solver {
 //
 //			}
 //		}));
-        In in = new In("./src/8puzzle/puzzle4x4-39.txt");
+        In in = new In("./src/8puzzle/puzzle2x2-unsolvable1.txt");
         int n = in.readInt();
         int[][] blocks = new int[n][n];
         for (int i = 0; i < n; i++)
