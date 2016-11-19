@@ -334,6 +334,7 @@ public final class Point2D implements Comparable<Point2D> {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
+        args = new String[]{"2","2","5"};
         int x0 = Integer.parseInt(args[0]);
         int y0 = Integer.parseInt(args[1]);
         int n = Integer.parseInt(args[2]);
