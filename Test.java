@@ -14,6 +14,11 @@ public class Test {
 	}
 
 	public static void main(String[] args) {
+	    Double d = 2.0;
+	    d = changeValue(d);
+	    System.out.println(d);
+	    boolean stop = true;
+	    if(stop) return ;
 		Direction up = Direction.up;
 		Direction down = Direction.down;
 		Direction left = Direction.left;
@@ -29,6 +34,10 @@ public class Test {
 		System.out.println(distance);
 		
 		
+	}
+	static double changeValue(Double d){
+	    d =new Double(3.0);
+	    return d;
 	}
 	static <Item> void printResult(Iterable<Item> iterator){
 		System.out.println("****************");

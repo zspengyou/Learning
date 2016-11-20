@@ -29,6 +29,7 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D point) {
+        if(contains(point)) return;
         size++;
         root = put(root, point, VERTICAL, new RectHV(0, 0, 1, 1));
     }
@@ -111,7 +112,9 @@ public class KdTree {
             return null;
         Point2D resultPoint = null;
         Point2D currentPoint = node.point;
-        updateResult(currentPoint, targetPoint, resultPoint, minDist);
+        Helper helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
+        minDist = helper.dist;
+        resultPoint = helper.point;
 
         RectHV containPointRect = node.nextRectHV(LEFT);
         RectHV notContainPointRect = node.nextRectHV(RIGHT);
@@ -124,25 +127,39 @@ public class KdTree {
         }
 
         currentPoint = nearestSearch(containPointNode, targetPoint, minDist);
-        updateResult(currentPoint, targetPoint, resultPoint, minDist);
+        helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
+        minDist = helper.dist;
+        resultPoint = helper.point;
 
         Double minDistR = notContainPointRect.distanceTo(targetPoint);
         if (minDistR < minDist) {
             currentPoint = nearestSearch(notContainPointNode, targetPoint, minDist);
-            updateResult(currentPoint, targetPoint, resultPoint, minDist);
+            helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
+            minDist = helper.dist;
+            resultPoint = helper.point;
         }
 
         return resultPoint;
     }
 
-    private void updateResult(Point2D currentPoint, Point2D targetPoint, Point2D resultPoint, Double minDist) {
+    private Helper updateResult(Point2D currentPoint, Point2D targetPoint, Point2D resultPoint, Double minDist) {
         if (currentPoint == null)
-            return;
+            return new Helper(minDist,resultPoint);
         Double dist = currentPoint.distanceSquaredTo(targetPoint);
         if (dist < minDist) {
             resultPoint = currentPoint;
             minDist = dist;
         }
+        return new Helper(minDist, resultPoint);
+    }
+    
+    private class Helper{
+        double dist;
+        Point2D point;
+        public Helper(double dist, Point2D point) {
+            this.dist = dist;
+            this.point = point;
+        }             
     }
 
     // unit testing of the methods (optional)
