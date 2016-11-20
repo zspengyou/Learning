@@ -1,3 +1,4 @@
+package redBlackTree;
 /******************************************************************************
  *  Compilation:  javac KdTreeVisualizer.java
  *  Execution:    java KdTreeVisualizer

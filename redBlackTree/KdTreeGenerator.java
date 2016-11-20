@@ -1,3 +1,4 @@
+package redBlackTree;
 /******************************************************************************
  *  Compilation:  javac KdTreeGenerator.java
  *  Execution:    java KdTreeGenerator n
