@@ -39,12 +39,18 @@ public class KdTree {
         if (node == null) {
             return new Node(point, orientation, rectHV);
         }
-        if (node.point.equals(point))
-            return node;
         if (node.comparePoint(point) < 0) {
-            node.left = put(node.left, point, node.nextOrientation(), node.nextRectHV(LEFT));
+            if(node.left != null){
+                node.left = put(node.left, point, node.nextOrientation(), node.left.rectHV);                
+            }else{
+                node.left = put(node.left, point, node.nextOrientation(), node.nextRectHV(LEFT));                
+            }
         } else {
-            node.right = put(node.right, point, node.nextOrientation(), node.nextRectHV(RIGHT));
+            if(node.right != null){
+                node.right = put(node.right, point, node.nextOrientation(),node.right.rectHV);
+            }else{
+                node.right = put(node.right, point, node.nextOrientation(), node.nextRectHV(RIGHT));
+            }
         }
         return node;
     }
@@ -113,9 +119,13 @@ public class KdTree {
             return null;
         Point2D resultPoint = null;
         Point2D currentPoint = node.point;
-        Helper helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
-        minDist = helper.dist;
-        resultPoint = helper.point;
+        if(currentPoint != null){
+            Double dist = currentPoint.distanceSquaredTo(targetPoint);
+            if (dist < minDist) {
+                minDist = dist;
+                resultPoint = currentPoint;
+            }
+        }
 
         RectHV containPointRect = node.nextRectHV(LEFT);
         RectHV notContainPointRect = node.nextRectHV(RIGHT);
@@ -131,51 +141,39 @@ public class KdTree {
         double minDistC = containPointRect.distanceSquaredTo(targetPoint);
         if(minDistC < minDist){
             currentPoint = nearestSearch(containPointNode, targetPoint, minDist);
-            helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
-            minDist = helper.dist;
-            resultPoint = helper.point;
+            
+            if(currentPoint != null){
+                Double dist = currentPoint.distanceSquaredTo(targetPoint);
+                if (dist < minDist) {
+                    minDist = dist;
+                    resultPoint = currentPoint;
+                }
+            }
         }
 
 
         Double minDistR = notContainPointRect.distanceSquaredTo(targetPoint);
         if (minDistR < minDist) {
             currentPoint = nearestSearch(notContainPointNode, targetPoint, minDist);
-            helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
-            minDist = helper.dist;
-            resultPoint = helper.point;
+            if(currentPoint != null){
+                Double dist = currentPoint.distanceSquaredTo(targetPoint);
+                if (dist < minDist) {
+                    minDist = dist;
+                    resultPoint = currentPoint;
+                }
+            }
         }
 
         return resultPoint;
     }
 
-    private Helper updateResult(Point2D currentPoint, Point2D targetPoint, Point2D resultPoint, Double minDist) {
-        if (currentPoint == null)
-            return new Helper(minDist, resultPoint);
-        Double dist = currentPoint.distanceSquaredTo(targetPoint);
-        if (dist < minDist) {
-            resultPoint = currentPoint;
-            minDist = dist;
-        }
-        return new Helper(minDist, resultPoint);
-    }
-
-    private class Helper {
-        double dist;
-        Point2D point;
-
-        public Helper(double dist, Point2D point) {
-            this.dist = dist;
-            this.point = point;
-        }
-    }
-
     // unit testing of the methods (optional)
     public static void main(String[] args) {
-        try {
-            NearestNeighborVisualizer.main(null);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            NearestNeighborVisualizer.main(null);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private class Node {
