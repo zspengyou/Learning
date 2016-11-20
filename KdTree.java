@@ -29,7 +29,8 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D point) {
-        if(contains(point)) return;
+        if (contains(point))
+            return;
         size++;
         root = put(root, point, VERTICAL, new RectHV(0, 0, 1, 1));
     }
@@ -123,15 +124,20 @@ public class KdTree {
         if (notContainPointRect.contains(targetPoint)) {
             containPointNode = node.right;
             notContainPointNode = node.left;
-            notContainPointRect = containPointRect;
+            notContainPointRect = node.nextRectHV(LEFT);
+            containPointRect = node.nextRectHV(RIGHT);
         }
 
-        currentPoint = nearestSearch(containPointNode, targetPoint, minDist);
-        helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
-        minDist = helper.dist;
-        resultPoint = helper.point;
+        double minDistC = containPointRect.distanceSquaredTo(targetPoint);
+        if(minDistC < minDist){
+            currentPoint = nearestSearch(containPointNode, targetPoint, minDist);
+            helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
+            minDist = helper.dist;
+            resultPoint = helper.point;
+        }
 
-        Double minDistR = notContainPointRect.distanceTo(targetPoint);
+
+        Double minDistR = notContainPointRect.distanceSquaredTo(targetPoint);
         if (minDistR < minDist) {
             currentPoint = nearestSearch(notContainPointNode, targetPoint, minDist);
             helper = updateResult(currentPoint, targetPoint, resultPoint, minDist);
@@ -144,7 +150,7 @@ public class KdTree {
 
     private Helper updateResult(Point2D currentPoint, Point2D targetPoint, Point2D resultPoint, Double minDist) {
         if (currentPoint == null)
-            return new Helper(minDist,resultPoint);
+            return new Helper(minDist, resultPoint);
         Double dist = currentPoint.distanceSquaredTo(targetPoint);
         if (dist < minDist) {
             resultPoint = currentPoint;
@@ -152,19 +158,24 @@ public class KdTree {
         }
         return new Helper(minDist, resultPoint);
     }
-    
-    private class Helper{
+
+    private class Helper {
         double dist;
         Point2D point;
+
         public Helper(double dist, Point2D point) {
             this.dist = dist;
             this.point = point;
-        }             
+        }
     }
 
     // unit testing of the methods (optional)
     public static void main(String[] args) {
-
+        try {
+            NearestNeighborVisualizer.main(null);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private class Node {
@@ -221,6 +232,10 @@ public class KdTree {
                     return new RectHV(rectHV.xmin(), point.y(), rectHV.xmax(), rectHV.ymax());
                 }
             }
+        }
+
+        public String toString() {
+            return point.toString() + orientation;
         }
     }
 
