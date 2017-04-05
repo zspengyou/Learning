@@ -1,4 +1,5 @@
-package garbageCollection;
+package garbageCollection.garbageCollection;
+
 
 
 import java.lang.ref.Reference;
