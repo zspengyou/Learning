@@ -2,3 +2,6 @@ Learning for Subtree with Maximum Average
 use global varible (instance variable), to reduce the number of variable passed in.
 think twice about what to return 
 think twice about how to update the result 
+	* compare with current node or need to compare with root.left root.right
+	* when min, greater than => update 
+	* when max, less than => update

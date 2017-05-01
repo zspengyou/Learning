@@ -15,66 +15,43 @@ public class SubTreeWithMaxAverage {
 	 *            the root of binary tree
 	 * @return the root of the maximum average of subtree
 	 */
-	public static NodeSum emptyNodeSum = new NodeSum(null, 0, 0);
+	private static ResultData emptyResultData = new ResultData(0, 0);
+	private TreeNode result = null;
+	private ResultData resultData = null;
 
 	public TreeNode findSubtree2(TreeNode root) {
 		if (root == null)
 			return null;
-		NodeSum result = new NodeSum(null, 0, 0);
-		findMaxAverage(root, result);
-		return result.node;
+		findMaxAverage(root);
+		return result;
 	}
 
-	private NodeSum findMaxAverage(TreeNode root, NodeSum result) {
+	private ResultData findMaxAverage(TreeNode root) {
 		if (root == null)
-			return emptyNodeSum;
-		NodeSum leftResult = findMaxAverage(root.left, result);
-		NodeSum rightResult = findMaxAverage(root.right, result);
+			return emptyResultData;
+		ResultData leftResult = findMaxAverage(root.left);
+		ResultData rightResult = findMaxAverage(root.right);
 		int currentNum = leftResult.nodeNum + rightResult.nodeNum + 1;
 		int currentSum = leftResult.nodeSum + rightResult.nodeSum + root.val;
-		NodeSum currentResult = new NodeSum(root, currentNum, currentSum);
-		getMax(leftResult, result);
-		getMax(rightResult, result);
-		getMax(currentResult, result);
+		ResultData currentResult = new ResultData(currentNum, currentSum);
+
+		if (result == null || resultData.nodeSum * currentResult.nodeNum >= resultData.nodeNum * currentResult.nodeSum) {
+			result = root;
+			resultData = currentResult;
+		}
+
 		return currentResult;
 
 	}
 
-	private NodeSum getMax(NodeSum first, NodeSum second) {
-		if (first.nodeNum == 0)
-			return second;
-		if (second.nodeNum == 0) {
-			second.node = first.node;
-			second.nodeNum = first.nodeNum;
-			second.nodeSum = first.nodeSum;
-			return second;
-		}
-
-		double firstAvg = first.nodeSum / (double) first.nodeNum;
-		double secondAvg = second.nodeSum / (double) second.nodeNum;
-		if (firstAvg > secondAvg) {
-			second.node = first.node;
-			second.nodeNum = first.nodeNum;
-			second.nodeSum = first.nodeSum;
-		}
-		return second;
-	}
-
-	static class NodeSum {
+	private static class ResultData {
 		public int nodeNum;
 		public int nodeSum;
-		public TreeNode node;
 
-		public NodeSum(TreeNode node, int nodeNum, int nodeSum) {
-			this.node = node;
+		public ResultData(int nodeNum, int nodeSum) {
 			this.nodeNum = nodeNum;
 			this.nodeSum = nodeSum;
 		}
 
-		public NodeSum(NodeSum nodeSum) {
-			this.node = nodeSum.node;
-			this.nodeNum = nodeSum.nodeNum;
-			this.nodeSum = nodeSum.nodeSum;
-		}
 	}
 }
