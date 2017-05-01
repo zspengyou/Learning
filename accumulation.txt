@@ -1,0 +1,4 @@
+Learning for Subtree with Maximum Average
+use global varible (instance variable), to reduce the number of variable passed in.
+think twice about what to return 
+think twice about how to update the result 
