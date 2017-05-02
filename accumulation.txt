@@ -5,3 +5,10 @@ think twice about how to update the result
 	* compare with current node or need to compare with root.left root.right
 	* when min, greater than => update 
 	* when max, less than => update
+subString(startIndex, startIndex+length  or endIndex + 1)
+
+for loop has two lines, the second one is not included in
+greater than or less than 
+nums[i] or nums[j]
+nums[len-1] or nums[len - i -1]
+loop => i++
