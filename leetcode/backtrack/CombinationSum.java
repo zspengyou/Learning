@@ -6,6 +6,14 @@ import java.util.List;
 public class CombinationSum {
     public static void main(String[] args) {
         System.out.println("https://leetcode.com/problems/combination-sum/");
+        System.out.println("-----------------------------------------");
+        System.out.println("https://leetcode.com/problems/subsets/");
+        System.out.println("https://leetcode.com/problems/subsets-ii/");
+        System.out.println("https://leetcode.com/problems/permutations/");
+        System.out.println("https://leetcode.com/problems/permutations-ii/");
+        System.out.println(" https://leetcode.com/problems/combination-sum/");
+        System.out.println("https://leetcode.com/problems/combination-sum-ii/");
+        System.out.println("https://leetcode.com/problems/palindrome-partitioning/");
     }
 
     class Solution {
