@@ -41,24 +41,14 @@ public class Permutation2 {
                 if (usedIndex.contains(i)) {
                     continue;
                 }
-                if (i > 0 && nums[i - 1] == nums[i]) {
+                if (i > 0 && nums[i - 1] == nums[i] && !usedIndex.contains(i - 1)) {
                     continue;
                 }
-                int runner = i + 1;//runner is nums.length or next index whose value not equal to current value
-                while (runner < nums.length && nums[runner] == nums[i]) {
-                    runner++;
-                }
-
-                for (int k = i; k < runner; k++) {
-                    usedIndex.add(k);
-                    track.add(nums[i]);
-                }
+                usedIndex.add(i);
+                track.add(nums[i]);
                 backTrack(nums, usedIndex, track, ans);
-                for (int k = i; k < runner; k++) {
-                    usedIndex.remove(k);
-                    track.remove(track.size() - 1);
-                }
-
+                usedIndex.remove(i);
+                track.remove(track.size() - 1);
             }
         }
     }
