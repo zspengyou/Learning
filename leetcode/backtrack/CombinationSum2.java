@@ -1,6 +1,5 @@
 package leetcode.backtrack;
 
-import edu.princeton.cs.algs4.In;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,6 +7,21 @@ import java.util.List;
 import java.util.Set;
 
 public class CombinationSum2 {
+    public static void main(String[] args) {
+        CombinationSum2 combinationSum2 = new CombinationSum2();
+        System.out.println("combinationSum2 = " + combinationSum2);
+        combinationSum2.test();
+
+    }
+
+    public void test() {
+        Solution solution = new Solution();
+        int[] candidates = new int[]{14, 6, 25, 9, 30, 20, 33, 34, 28, 30, 16, 12, 31, 9, 9, 12, 34, 16, 25, 32, 8, 7, 30, 12, 33, 20, 21, 29, 24, 17, 27, 34, 11, 17, 30, 6, 32, 21, 27, 17, 16, 8, 24, 12, 12, 28, 11, 33, 10, 32, 22, 13, 34, 18, 12};
+        int target = 27;
+        List<List<Integer>> result = solution.combinationSum2(candidates, target);
+        System.out.println("result = " + result);
+    }
+
     class Solution {
         public List<List<Integer>> combinationSum2(int[] candidates, int target) {
             Arrays.sort(candidates);
@@ -20,27 +34,34 @@ public class CombinationSum2 {
         }
 
         private void backtrack(int[] candidates, int target, int startIndex, List<Integer> track, List<List<Integer>> ans) {
-            if (startIndex >= candidates.length) {
-                return;
-            }
             int trackSum = sum(track);
             if (trackSum > target) {
                 return;
-            } else if (trackSum == target) {
-                ans.add(new ArrayList<>(track));
+            }
+            if (startIndex == candidates.length) {
+                if (trackSum == target) {
+                    ans.add(new ArrayList<>(track));
+                }
                 return;
             }
 
-            // current value equals to previous one and
-            // previous value is not used
-            if (startIndex > 0 && candidates[startIndex - 1] == candidates[startIndex] && track.size()>0 && track.get(track.size() - 1) != candidates[startIndex]) {
-                return;
-            } else {
-                backtrack(candidates, target, startIndex + 1, track, ans);
-                track.add(candidates[startIndex]);
-                backtrack(candidates, target, startIndex + 1, track, ans);
-                track.remove(track.size() - 1);
+            int runner = startIndex + 1;
+            while (runner < candidates.length && candidates[startIndex] == candidates[runner]) {
+                runner++;
             }
+
+            backtrack(candidates, target, runner, track, ans);
+            for (int i = startIndex; i < runner; i++) {// start from current, end with last same value
+                int count = i - startIndex + 1;
+                for (int j = 0; j < count; j++) {
+                    track.add(candidates[startIndex]);
+                }
+                backtrack(candidates, target, runner, track, ans);
+                for (int j = 0; j < count; j++) {
+                    track.remove(track.size() - 1);
+                }
+            }
+
         }
 
         private int sum(List<Integer> path) {
@@ -57,35 +78,39 @@ public class CombinationSum2 {
             Arrays.sort(candidates);
             List<List<Integer>> ans = new ArrayList<>();
             List<Integer> track = new ArrayList<>();
-            Set<Integer> usedIndex = new HashSet<>();
-            backtrack(candidates, target, usedIndex, track, ans);
+            int startIndex = 0;
+            backtrack(candidates, target, startIndex, track, ans);
             return ans;
 
         }
 
-        private void backtrack(int[] candidates, int target, Set<Integer> usedIndex, List<Integer> track, List<List<Integer>> ans) {
+        private void backtrack(int[] candidates, int target, int startIndex, List<Integer> track, List<List<Integer>> ans) {
+
             int trackSum = sum(track);
             if (trackSum > target) {
                 return;
-            } else if (trackSum == target) {
-                ans.add(new ArrayList<>(track));
+            }
+            if (startIndex == candidates.length) {
+                if (trackSum == target) {
+                    ans.add(track);
+                }
                 return;
             }
 
-            for (int i = 0; i < candidates.length; i++) {
-                if (usedIndex.contains(i)) {
-                    continue;
-                }
-                if (i > 0 && candidates[i - 1] == candidates[i] && !usedIndex.contains(i - 1)) {
-                    continue;
-                }
-                usedIndex.add(i);
-                track.add(candidates[i]);
-                backtrack(candidates, target, usedIndex, track, ans);
-                track.remove(track.size() - 1);
-                usedIndex.remove(i);
+            int runner = startIndex + 1;
+            while (runner < candidates.length && candidates[startIndex] == candidates[runner]) {
+                runner++;
             }
 
+            backtrack(candidates, target, runner, track, ans);
+            for (int i = startIndex; i < runner; i++) {// start from current, end with last same value
+                int count = i - startIndex + 1;
+                List<Integer> newTrack = new ArrayList<>(track);
+                for (int j = 0; j < count; j++) {
+                    newTrack.add(candidates[startIndex]);
+                }
+                backtrack(candidates, target, runner, newTrack, ans);
+            }
 
         }
 
@@ -97,4 +122,5 @@ public class CombinationSum2 {
             return sum;
         }
     }
+
 }
