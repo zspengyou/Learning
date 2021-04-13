@@ -1,7 +1,19 @@
 package leetcode.backtrack;
 
-public class NQueensII {
+import java.util.HashMap;
+import java.util.Map;
 
+public class NQueensII {
+    public static void main(String[] args) {
+        NQueensII nQueensII = new NQueensII();
+        nQueensII.test();
+    }
+
+    private void test() {
+        Solution solution = new Solution();
+        int result = solution.totalNQueens(4);
+        System.out.println("result = " + result);
+    }
 
     class Solution {
         int countOfAnswer = 0;
@@ -18,14 +30,12 @@ public class NQueensII {
                 countOfAnswer++;
                 return;
             }
-            for (int i = row; i < puzzle.length; i++) {
-                for (int j = 0; j < puzzle.length; j++) {
-                    puzzle[i][j] = true;
-                    if (isValid(puzzle)) {
-                        backtrack(puzzle, row + 1);
-                    }
-                    puzzle[i][j] = false;
+            for (int j = 0; j < puzzle.length; j++) {
+                puzzle[row][j] = true;
+                if (isValid(puzzle)) {
+                    backtrack(puzzle, row + 1);
                 }
+                puzzle[row][j] = false;
             }
 
         }
@@ -54,7 +64,7 @@ public class NQueensII {
             return true;
         }
 
-        private boolean isValidDiag(boolean[][] puzzle) {
+        private boolean isValidDiag2(boolean[][] puzzle) {
             for (int sum = 0; sum <= 2 * (puzzle.length - 1); sum++) {
                 boolean foundQueen = false;
                 for (int i = 0; i <= sum; i++) {
@@ -68,6 +78,22 @@ public class NQueensII {
                         } else if (puzzle[i][j] && foundQueen) {
                             return false;
                         }
+                    }
+                }
+            }
+            return true;
+        }
+
+        private boolean isValidDiag(boolean[][] puzzle) {
+            Map<Integer, Boolean> diagonal = new HashMap<>();
+            for (int i = 0; i < puzzle.length; i++) {
+                for (int j = 0; j < puzzle.length; j++) {
+                    int sum = i + j;
+                    boolean exist = diagonal.getOrDefault(sum, false);
+                    if (puzzle[i][j] && exist) {
+                        return false;
+                    } else if (puzzle[i][j] && !exist) {
+                        diagonal.put(sum, true);
                     }
                 }
             }
