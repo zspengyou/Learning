@@ -1,50 +1,47 @@
 package leetcode.array;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class MergeIntervals {
+
+    public static void main(String[] args) {
+        List<Integer> tmp = new ArrayList<>();
+        tmp.add(1);
+        tmp.add(2);
+        tmp.add(3);
+        Integer[]tmpresult = tmp.toArray(new Integer[3]);
+        System.out.println("result = " + Arrays.toString(tmpresult));
+    }
     class Solution {
         public int[][] merge(int[][] intervals) {
 
             Arrays.sort(intervals, new ArrayComparator());
 
-            int count = 1;
-            for (int i = 1; i < intervals.length; i++) {
-                if (intervals[i - 1][1] >= intervals[i][0]) {
-                    continue;
+            List<int[]> mergedIntervals = new ArrayList<>();
+
+            int index = 0;
+            while (index < intervals.length) {
+                int[] currentInterval = new int[2];
+                currentInterval[0] = intervals[index][0];
+                currentInterval[1] = intervals[index][1];
+                index++;
+                while (index < intervals.length && currentInterval[1] >= intervals[index][0]) {
+                    currentInterval[1] = Integer.max(currentInterval[1], intervals[index][1]);
+                    index++;
                 }
-                count++;
+                mergedIntervals.add(currentInterval);
             }
-            int[][] result = new int[count][2];
-            int nextIntervalIndex = 1;
-            for (int i = 0; i < count; i++) {
-                int[] interval = new int[2];
-                interval[0] = intervals[nextIntervalIndex - 1][0];
-                interval[1] = intervals[intervals.length - 1][1];
-                while (nextIntervalIndex < intervals.length) {
-                    if (intervals[nextIntervalIndex - 1][1] >= intervals[nextIntervalIndex][0]) {//overlap
-                        nextIntervalIndex++;
-                        continue;
-                    } else {//not overlap
-                        interval[1] = intervals[nextIntervalIndex - 1][1];
-                        nextIntervalIndex++;
-                        break;
-                    }
-                }
-                result[i] = interval;
-            }
-            return result;
+
+            return mergedIntervals.toArray(new int[mergedIntervals.size()][]);
         }
 
         class ArrayComparator implements Comparator<int[]> {
             @Override
             public int compare(int[] o1, int[] o2) {
-                if (o1[0] < o2[0]) {
-                    return -1;
-                } else {
-                    return 1;
-                }
+                return o1[0]-o2[0];
             }
         }
     }
