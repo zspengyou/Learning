@@ -11,7 +11,9 @@ public class InsertInterval {
     class Solution {
         public int[][] insert(int[][] intervals, int[] newInterval) {
             List<int[]> mergedIntervals = new ArrayList<>();
-
+            if(intervals.length == 0){
+                mergedIntervals.add(newInterval);
+            }
             for (int i = 0; i < intervals.length; i++) {
                 //newInterval is less than the first interval
                 if (newInterval[1] < intervals[0][0] ||
@@ -30,8 +32,9 @@ public class InsertInterval {
                     while (i < intervals.length && newInterval[1] >= intervals[i][0]) {
                         i++;
                     }
-                    tmp[0] = Math.max(newInterval[1], intervals[i - 1][1]);
+                    tmp[1] = Math.max(newInterval[1], intervals[i - 1][1]);
                     mergedIntervals.add(tmp);
+                    i--;
                 } else {
                     mergedIntervals.add(intervals[i]);
                 }
