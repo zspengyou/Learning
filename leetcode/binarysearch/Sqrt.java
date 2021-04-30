@@ -12,13 +12,13 @@ public class Sqrt {
                 return x;
             }
 
-            int right = x >= (int) Math.pow(2, 16) - 1 ? (int) Math.pow(2, 16) - 1 : x;
+            int right = Integer.MAX_VALUE - 1;
             int left = 1;
             while (left < right - 1) {
                 int tmp = (left + right) / 2;
-                if (tmp * tmp > x) {
+                if (x / tmp < tmp) {
                     right = tmp;
-                } else if (tmp * tmp < x) {
+                } else if (x / tmp > tmp) {
                     left = tmp;
                 } else {
                     return tmp;
